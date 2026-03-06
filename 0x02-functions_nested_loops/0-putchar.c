@@ -1,4 +1,14 @@
-# show newline chars at the end
-cat -A 0x02-functions_nested_loops/0-putchar.c | tail
-cat -A 0x02-functions_nested_loops/main.h | tail
-cat -A 0x02-functions_nested_loops/README.md | tail
+#include "main.h" 
+int main(void)
+{
+    _putchar('_');
+    _putchar('p');
+    _putchar('u');
+    _putchar('t');
+    _putchar('c');
+    _putchar('h');
+    _putchar('a');
+    _putchar('r');
+    _putchar('\n');
+    return (0);
+}
