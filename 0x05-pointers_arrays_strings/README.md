@@ -1,11 +1,8 @@
-#include "main.h"
+# reset_to_98 function
 
-/**
- * reset_to_98 - updates the value of an integer to 98
- * @n: pointer to the integer to be updated
- */
-void reset_to_98(int *n)
-{
-    if (n != NULL)
-        *n = 98;
-}
+This function accepts a pointer to an integer and updates the value it points to to 98.
+
+## Prototype
+
+```c
+void reset_to_98(int *n);
