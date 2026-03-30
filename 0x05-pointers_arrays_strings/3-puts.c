@@ -1,20 +1,11 @@
 #include "main.h"
 
-/**
- * _puts - prints a string, followed by a new line
- * @str: pointer to the string to print
- */
 void _puts(char *str)
 {
-    int i = 0;
-
-    if (str == NULL)
-        return;
-
-    while (str[i] != '\0')
+    while (*str)
     {
-        _putchar(str[i]);
-        i++;
+        _putchar(*str);
+        str++;
     }
     _putchar('\n');
 }
