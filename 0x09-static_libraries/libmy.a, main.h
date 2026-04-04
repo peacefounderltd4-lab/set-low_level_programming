@@ -1,6 +1,8 @@
+/usr/bin/ld:./libmy.a: file format not recognized; treating as linker script
+/usr/bin/ld:./libmy.a:1: syntax error
+collect2: error: ld returned 1 exit status
 #ifndef MAIN_H
 #define MAIN_H
-
 int _putchar(char c);
 int _islower(int c);
 int _isalpha(int c);
