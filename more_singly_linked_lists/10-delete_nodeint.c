@@ -3,39 +3,39 @@
 
 /**
  * delete_nodeint_at_index - deletes the node at index of a listint_t list
- * @head: pointer to pointer of the first node
+ * @head: pointer to the first node
  * @index: index of the node to delete
  *
- * Return: 1 if successful, -1 if failed
+ * Return: 1 if it succeeded, -1 if it failed
  */
 int delete_nodeint_at_index(listint_t **head, unsigned int index)
 {
-	listint_t *temp;
 	listint_t *current;
+	listint_t *temp;
 	unsigned int i;
 
 	if (head == NULL || *head == NULL)
 		return (-1);
 
-	temp = *head;
+	current = *head;
 
 	if (index == 0)
 	{
-		*head = temp->next;
-		free(temp);
+		*head = current->next;
+		free(current);
 		return (1);
 	}
 
-	for (i = 0; temp != NULL && i < index - 1; i++)
-		temp = temp->next;
+	for (i = 0; current != NULL && i < index - 1; i++)
+		current = current->next;
 
-	if (temp == NULL || temp->next == NULL)
+	if (current == NULL || current->next == NULL)
 		return (-1);
 
-	current = temp->next;
-	temp->next = current->next;
+	temp = current->next;
+	current->next = temp->next;
 
-	free(current);
+	free(temp);
 
 	return (1);
 }
