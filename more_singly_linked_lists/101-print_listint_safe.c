@@ -1,19 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "lists.h"
 
-/**
- * print_listint_safe - prints list safely (handles loops)
- * @head: pointer to list
- *
- * Return: number of nodes
- */
 size_t print_listint_safe(const listint_t *head)
 {
 	const listint_t *slow, *fast;
 	size_t count = 0;
 
-	if (head == NULL)
+	if (!head)
 		return (0);
 
 	slow = head;
@@ -34,7 +27,7 @@ size_t print_listint_safe(const listint_t *head)
 		}
 	}
 
-	while (slow != NULL)
+	while (slow)
 	{
 		printf("[%p] %d\n", (void *)slow, slow->n);
 		count++;
