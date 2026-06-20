@@ -2,11 +2,11 @@
 #include "lists.h"
 
 /**
- * delete_dnodeint_at_index - deletes node at index
+ * delete_dnodeint_at_index - deletes node at given index
  * @head: pointer to head
- * @index: index
+ * @index: index of node to delete (0-based)
  *
- * Return: 1 success, -1 failure
+ * Return: 1 on success, -1 on failure
  */
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
@@ -18,6 +18,7 @@ int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 
 	tmp = *head;
 
+	/* delete first node */
 	if (index == 0)
 	{
 		*head = tmp->next;
@@ -27,6 +28,7 @@ int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 		return (1);
 	}
 
+	/* move to target node */
 	while (tmp && i < index)
 	{
 		tmp = tmp->next;
@@ -36,6 +38,7 @@ int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 	if (!tmp)
 		return (-1);
 
+	/* reconnect links */
 	if (tmp->prev)
 		tmp->prev->next = tmp->next;
 
