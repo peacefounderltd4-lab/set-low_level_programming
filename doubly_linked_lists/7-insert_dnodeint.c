@@ -2,7 +2,7 @@
 #include "lists.h"
 
 /**
- * insert_dnodeint_at_index - inserts node at index
+ * insert_dnodeint_at_index - inserts node at given index
  * @h: pointer to head
  * @idx: index
  * @n: value
@@ -37,6 +37,7 @@ unsigned int idx, int n)
 		return (NULL);
 
 	new->n = n;
+
 	new->next = tmp->next;
 	new->prev = tmp;
 
