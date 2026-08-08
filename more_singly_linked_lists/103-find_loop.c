@@ -2,9 +2,9 @@
 
 /**
  * find_listint_loop - finds the beginning of a loop
- * @head: pointer to the head of the list
+ * @head: pointer to the first node
  *
- * Return: address of the loop's starting node, or NULL
+ * Return: address of the loop node, or NULL
  */
 listint_t *find_listint_loop(listint_t *head)
 {
