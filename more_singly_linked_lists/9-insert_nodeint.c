@@ -1,41 +1,54 @@
-#include "lists.h"
 #include <stdlib.h>
+#include "lists.h"
 
 /**
- * insert_nodeint_at_index - inserts a new node at a given position
- * @head: pointer to the first node
- * @idx: index where the node is inserted
- * @n: value to store in the new node
+ * insert_nodeint_at_index - inserts a node at a given index
+ * @head: pointer to the head of the list
+ * @idx: index where the new node is inserted
+ * @n: integer stored in the new node
  *
- * Return: address of new node, or NULL if it fails
+ * Return: address of the new node, or NULL if it fails
  */
-listint_t *insert_nodeint_at_index(listint_t **head,
-        unsigned int idx, int n)
+listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
-    /* 1. Check if head pointer is valid */
+	listint_t *new_node;
+	listint_t *current;
+	unsigned int i;
 
-    /* 2. Allocate memory for a new node */
+	if (head == NULL)
+		return (NULL);
 
-    /* 3. Handle malloc failure */
+	if (idx == 0)
+	{
+		new_node = malloc(sizeof(listint_t));
+		if (new_node == NULL)
+			return (NULL);
 
-    /* 4. Assign value to the new node */
+		new_node->n = n;
+		new_node->next = *head;
+		*head = new_node;
+		return (new_node);
+	}
 
-    /* 5. If inserting at index 0:
-     *    - connect new node to current head
-     *    - update head
-     *    - return new node
-     */
+	current = *head;
+	i = 0;
 
-    /* 6. Move through the list until reaching the node
-     *    before the insertion point
-     */
+	while (current != NULL && i < idx - 1)
+	{
+		current = current->next;
+		i++;
+	}
 
-    /* 7. If index does not exist:
-     *    - free allocated node
-     *    - return NULL
-     */
+	if (current == NULL)
+		return (NULL);
 
-    /* 8. Link the new node into the list */
+	new_node = malloc(sizeof(listint_t));
+	if (new_node == NULL)
+		return (NULL);
 
-    /* 9. Return the new node address */
+	new_node->n = n;
+	new_node->next = current->next;
+	current->next = new_node;
+
+	return (new_node);
 }
