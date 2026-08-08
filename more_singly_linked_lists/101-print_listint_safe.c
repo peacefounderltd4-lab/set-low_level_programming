@@ -1,140 +1,127 @@
-#include <stdlib.h>
 #include "lists.h"
 
 /**
- * print_hex - prints a number in hexadecimal
- * @number: number to print
+ * print_number - prints a signed integer
+ * @n: integer to print
  */
-static void print_hex(unsigned long number)
+static void print_number(int n)
 {
-	char *digits = "0123456789abcdef";
+	unsigned int number;
+	unsigned int divisor;
+	char digit;
 
-	if (number > 15)
-		print_hex(number / 16);
+	if (n < 0)
+	{
+		_putchar('-');
+		number = (unsigned int)(-(n + 1));
+		number++;
+	}
+	else
+	{
+		number = (unsigned int)n;
+	}
 
-	_putchar(digits[number % 16]);
+	divisor = 1;
+	while (number / divisor >= 10)
+		divisor *= 10;
+
+	while (divisor > 0)
+	{
+		digit = (char)('0' + (number / divisor) % 10);
+		_putchar(digit);
+		divisor /= 10;
+	}
 }
 
 /**
- * print_address - prints an address in hexadecimal
- * @address: address to print
+ * print_hex - prints a pointer value in hexadecimal
+ * @ptr: pointer to print
  */
-static void print_address(const void *address)
+static void print_hex(const listint_t *ptr)
 {
-	unsigned long number;
+	unsigned long value;
+	unsigned long divisor;
+	char digit;
 
-	number = (unsigned long)address;
-
-	_putchar('[');
+	value = (unsigned long)ptr;
 	_putchar('0');
 	_putchar('x');
 
-	if (number == 0)
-		_putchar('0');
-	else
-		print_hex(number);
-
-	_putchar(']');
-}
-
-/**
- * detect_loop - finds the meeting point of a linked-list loop
- * @head: pointer to the head of the list
- *
- * Return: meeting node, or NULL if there is no loop
- */
-static const listint_t *detect_loop(const listint_t *head)
-{
-	const listint_t *slow;
-	const listint_t *fast;
-
-	slow = head;
-	fast = head;
-
-	while (fast != NULL && fast->next != NULL)
+	if (value == 0)
 	{
-		slow = slow->next;
-		fast = fast->next->next;
-
-		if (slow == fast)
-			return (slow);
+		_putchar('0');
+		return;
 	}
 
-	return (NULL);
+	divisor = 1;
+	while (value / divisor >= 16)
+		divisor *= 16;
+
+	while (divisor > 0)
+	{
+		digit = (char)((value / divisor) % 16);
+		if (digit < 10)
+			_putchar((char)('0' + digit));
+		else
+			_putchar((char)('a' + digit - 10));
+		divisor /= 16;
+	}
 }
 
 /**
- * print_node - prints one list node
+ * print_node_safe - prints one node
  * @node: node to print
  */
-static void print_node(const listint_t *node)
+static void print_node_safe(const listint_t *node)
 {
-	print_address((const void *)node);
+	_putchar('[');
+	print_hex(node);
+	_putchar(']');
 	_putchar(' ');
-	_putchar('0' + (node->n / 1000) % 10);
-	_putchar('0' + (node->n / 100) % 10);
-	_putchar('0' + (node->n / 10) % 10);
-	_putchar('0' + node->n % 10);
+	print_number(node->n);
 	_putchar('\n');
 }
 
 /**
- * print_listint_safe - prints a listint_t list safely
- * @head: pointer to the head of the list
+ * print_listint_safe - prints a list safely
+ * @head: pointer to the first node
  *
- * Return: number of nodes in the list
+ * Return: number of nodes printed
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	const listint_t *current;
-	const listint_t *meeting;
-	const listint_t *loop_start;
+	const listint_t *slow;
+	const listint_t *fast;
 	size_t count;
 
-	meeting = detect_loop(head);
-	current = head;
+	slow = head;
+	fast = head;
 	count = 0;
 
-	if (meeting == NULL)
+	while (slow != NULL)
 	{
-		while (current != NULL)
+		print_node_safe(slow);
+		count++;
+
+		slow = slow->next;
+
+		if (fast != NULL && fast->next != NULL)
+			fast = fast->next->next;
+		else
+			fast = NULL;
+
+		if (slow != NULL && slow == fast)
 		{
-			print_node(current);
-			count++;
-			current = current->next;
+			_putchar('-');
+			_putchar('>');
+			_putchar(' ');
+			print_node_safe(slow);
+			return (count);
 		}
-		return (count);
+
+		if (fast == NULL)
+			continue;
 	}
-
-	loop_start = head;
-	while (loop_start != meeting)
-	{
-		loop_start = loop_start->next;
-		meeting = meeting->next;
-	}
-
-	current = head;
-	while (current != loop_start)
-	{
-		print_node(current);
-		count++;
-		current = current->next;
-	}
-
-	current = loop_start;
-	do {
-		print_node(current);
-		count++;
-		current = current->next;
-	} while (current != loop_start);
-
-	print_address((const void *)loop_start);
-	_putchar(' ');
-	_putchar('-');
-	_putchar('>');
-	_putchar(' ');
-	print_address((const void *)loop_start);
-	_putchar('\n');
 
 	return (count);
 }
