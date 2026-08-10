@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "lists.h"
 
 /**
@@ -6,7 +5,7 @@
  * @head: pointer to the first node
  * @index: index of the node to delete
  *
- * Return: 1 if successful, -1 if it fails
+ * Return: 1 if successful, -1 if failed
  */
 int delete_nodeint_at_index(listint_t **head, unsigned int index)
 {
@@ -17,15 +16,15 @@ int delete_nodeint_at_index(listint_t **head, unsigned int index)
 	if (head == NULL || *head == NULL)
 		return (-1);
 
+	current = *head;
+
 	if (index == 0)
 	{
-		current = *head;
 		*head = current->next;
 		free(current);
 		return (1);
 	}
 
-	current = *head;
 	previous = NULL;
 	i = 0;
 
