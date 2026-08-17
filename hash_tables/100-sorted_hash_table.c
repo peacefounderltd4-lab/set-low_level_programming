@@ -1,11 +1,12 @@
 #include "hash_tables.h"
 
-int add_to_sorted_list(shash_table_t *ht, shash_node_t *node);
-shash_node_t *create_shash_node(const char *key, const char *value);
+int insert_sorted_list(shash_table_t *ht, shash_node_t *node);
+shash_node_t *make_shash_node(const char *key, const char *value);
 
 /**
  * shash_table_create - Creates a sorted hash table.
  * @size: The size of the array.
+ *
  * Return: A pointer to the created hash table, or NULL if it fails.
  */
 shash_table_t *shash_table_create(unsigned long int size)
@@ -38,12 +39,13 @@ shash_table_t *shash_table_create(unsigned long int size)
 }
 
 /**
- * create_shash_node - Dynamically allocates space for a new sorted node.
- * @key: The key string.
- * @value: The value string.
- * Return: A pointer to the new node, or NULL if allocation fails.
+ * make_shash_node - Allocates and duplicates fields for a new node.
+ * @key: The unique key string.
+ * @value: The data value string.
+ *
+ * Return: A pointer to the node, or NULL on allocation error.
  */
-shash_node_t *create_shash_node(const char *key, const char *value)
+shash_node_t *make_shash_node(const char *key, const char *value)
 {
 	shash_node_t *node;
 
@@ -74,6 +76,7 @@ shash_node_t *create_shash_node(const char *key, const char *value)
  * @ht: The sorted hash table structure.
  * @key: The key string (cannot be empty).
  * @value: The value string associated with the key.
+ *
  * Return: 1 if it succeeded, 0 otherwise.
  */
 int shash_table_set(shash_table_t *ht, const char *key, const char *value)
@@ -101,23 +104,24 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 		curr = curr->next;
 	}
 
-	new_node = create_shash_node(key, value);
+	new_node = make_shash_node(key, value);
 	if (!new_node)
 		return (0);
 
 	new_node->next = ht->array[index];
 	ht->array[index] = new_node;
 
-	return (add_to_sorted_list(ht, new_node));
+	return (insert_sorted_list(ht, new_node));
 }
 
 /**
- * add_to_sorted_list - Inserts a node into the sorted doubly linked list.
+ * insert_sorted_list - Hooks a node into the sorted doubly linked list.
  * @ht: The sorted hash table structure.
- * @node: The pre-allocated node to insert.
- * Return: 1 on success, 0 on failure.
+ * @node: The node to insert.
+ *
+ * Return: Always 1.
  */
-int add_to_sorted_list(shash_table_t *ht, shash_node_t *node)
+int insert_sorted_list(shash_table_t *ht, shash_node_t *node)
 {
 	shash_node_t *curr;
 
@@ -158,9 +162,10 @@ int add_to_sorted_list(shash_table_t *ht, shash_node_t *node)
 }
 
 /**
- * shash_table_get - Retrieves a value associated with a key from sorted table.
+ * shash_table_get - Retrieves a value associated with a key.
  * @ht: A pointer to the sorted hash table structure.
  * @key: The key string to search for.
+ *
  * Return: The value associated with the element, or NULL if not found.
  */
 char *shash_table_get(const shash_table_t *ht, const char *key)
