@@ -3,6 +3,39 @@
 #include "hash_tables.h"
 
 /**
+ * create_node - Creates a new hash node with duplicated key and value.
+ * @key: The key string.
+ * @value: The value string.
+ *
+ * Return: A pointer to the new node, or NULL on failure.
+ */
+hash_node_t *create_node(const char *key, const char *value)
+{
+	hash_node_t *new_node;
+
+	new_node = malloc(sizeof(hash_node_t));
+	if (!new_node)
+		return (NULL);
+
+	new_node->key = strdup(key);
+	if (!new_node->key)
+	{
+		free(new_node);
+		return (NULL);
+	}
+
+	new_node->value = strdup(value);
+	if (!new_node->value)
+	{
+		free(new_node->key);
+		free(new_node);
+		return (NULL);
+	}
+
+	return (new_node);
+}
+
+/**
  * hash_table_set - Adds or updates an element in a hash table.
  * @ht: The hash table to add or update the key/value to.
  * @key: The key string (cannot be empty).
@@ -35,22 +68,10 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 		curr = curr->next;
 	}
 
-	new_node = malloc(sizeof(hash_node_t));
+	new_node = create_node(key, value);
 	if (!new_node)
 		return (0);
-	new_node->key = strdup(key);
-	if (!new_node->key)
-	{
-		free(new_node);
-		return (0);
-	}
-	new_node->value = strdup(value);
-	if (!new_node->value)
-	{
-		free(new_node->key);
-		free(new_node);
-		return (0);
-	}
+
 	new_node->next = ht->array[index];
 	ht->array[index] = new_node;
 	return (1);
